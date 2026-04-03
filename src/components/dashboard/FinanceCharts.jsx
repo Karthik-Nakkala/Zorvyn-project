@@ -7,7 +7,7 @@ const COLORS = ['#10b981', '#3b82f6', '#8b5cf6', '#ec4899', '#f59e0b', '#ef4444'
 const FinanceCharts = () => {
   const transactions = useSelector((state) => state.transactions.transactions);
 
-  // Dynamic Balance Trend
+  // ==================== SMART DYNAMIC LAST 6 MONTHS ====================
   const monthlyTrend = useMemo(() => {
     if (transactions.length === 0) {
       return [{ month: 'No Data', balance: 0 }];
@@ -22,24 +22,25 @@ const FinanceCharts = () => {
       if (!monthsMap[monthKey]) {
         monthsMap[monthKey] = { month: monthKey, net: 0 };
       }
-
       monthsMap[monthKey].net += (t.type === 'income' ? t.amount : -t.amount);
     });
 
+    // Get all months that have data and sort them
     let runningBalance = 0;
-    const sorted = Object.values(monthsMap).sort((a, b) => 
+    const sortedMonths = Object.values(monthsMap).sort((a, b) => 
       new Date(`2026 ${a.month} 01`) - new Date(`2026 ${b.month} 01`)
     );
 
-    return sorted
-      .map(item => {
-        runningBalance += item.net;
-        return {
-          month: item.month,
-          balance: Math.max(0, Math.round(runningBalance))
-        };
-      })
-      .slice(-6);
+    const result = sortedMonths.map(item => {
+      runningBalance += item.net;
+      return {
+        month: item.month,
+        balance: Math.max(0, Math.round(runningBalance))
+      };
+    });
+
+    // If less than 6 months, show only available (better than empty months)
+    return result.length > 0 ? result : [{ month: 'No Data', balance: 0 }];
   }, [transactions]);
 
   // Spending Breakdown
@@ -48,11 +49,8 @@ const FinanceCharts = () => {
       .filter(t => t.type === 'expense')
       .reduce((acc, t) => {
         const existing = acc.find(item => item.name === t.category);
-        if (existing) {
-          existing.value += t.amount;
-        } else {
-          acc.push({ name: t.category, value: t.amount });
-        }
+        if (existing) existing.value += t.amount;
+        else acc.push({ name: t.category, value: t.amount });
         return acc;
       }, []);
   }, [transactions]);
@@ -60,9 +58,9 @@ const FinanceCharts = () => {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-10">
       
-      {/* Balance Trend Line Chart */}
+      {/* Balance Trend */}
       <div className="bg-zinc-900 border border-zinc-800 rounded-3xl p-6">
-        <h3 className="text-lg font-semibold mb-6">Balance Trend (Last 6 Months)</h3>
+        <h3 className="text-lg font-semibold mb-6">Balance Trend</h3>
         <ResponsiveContainer width="100%" height={320}>
           <LineChart data={monthlyTrend}>
             <CartesianGrid strokeDasharray="3 3" stroke="#27272a" />
@@ -82,7 +80,7 @@ const FinanceCharts = () => {
         </ResponsiveContainer>
       </div>
 
-      {/* Spending Breakdown Pie Chart */}
+      {/* Pie Chart (same) */}
       <div className="bg-zinc-900 border border-zinc-800 rounded-3xl p-6">
         <h3 className="text-lg font-semibold mb-6">Spending Breakdown</h3>
         
@@ -114,10 +112,7 @@ const FinanceCharts = () => {
         <div className="grid grid-cols-2 gap-3 mt-6 text-sm">
           {categoryData.slice(0, 6).map((item, i) => (
             <div key={i} className="flex items-center gap-2">
-              <div 
-                className="w-3 h-3 rounded-full" 
-                style={{ backgroundColor: COLORS[i % COLORS.length] }}
-              />
+              <div className="w-3 h-3 rounded-full" style={{ backgroundColor: COLORS[i % COLORS.length] }} />
               <span>{item.name}</span>
             </div>
           ))}

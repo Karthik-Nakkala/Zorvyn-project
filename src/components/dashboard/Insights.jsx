@@ -4,7 +4,6 @@ import { TrendingUp, TrendingDown, Target, Award } from 'lucide-react';
 const Insights = () => {
   const transactions = useSelector((state) => state.transactions.transactions);
 
-  // Calculations
   const totalIncome = transactions
     .filter(t => t.type === 'income')
     .reduce((sum, t) => sum + t.amount, 0);
@@ -28,7 +27,7 @@ const Insights = () => {
   const highestSpending = Object.entries(categorySpend)
     .sort((a, b) => b[1] - a[1])[0];
 
-  // ==================== DYNAMIC MONTHLY COMPARISON ====================
+  // ==================== FIXED DYNAMIC MONTHLY COMPARISON ====================
   const getMonthlyComparison = () => {
     const now = new Date();
     const currentMonth = now.getMonth();
@@ -40,27 +39,27 @@ const Insights = () => {
     transactions.forEach(t => {
       if (t.type !== 'expense') return;
 
-      const txDate = new Date(t.date);
-      const txMonth = txDate.getMonth();
-      const txYear = txDate.getFullYear();
-
-      if (txMonth === currentMonth && txYear === currentYear) {
+      const d = new Date(t.date);
+      if (d.getMonth() === currentMonth && d.getFullYear() === currentYear) {
         thisMonthExpense += t.amount;
       } else if (
-        (txMonth === currentMonth - 1 && txYear === currentYear) ||
-        (currentMonth === 0 && txMonth === 11 && txYear === currentYear - 1)
+        (d.getMonth() === currentMonth - 1 && d.getFullYear() === currentYear) ||
+        (currentMonth === 0 && d.getMonth() === 11 && d.getFullYear() === currentYear - 1)
       ) {
         lastMonthExpense += t.amount;
       }
     });
 
-    if (lastMonthExpense === 0) return "New Month";
+    if (lastMonthExpense === 0) {
+      return { text: "New Month", change: 0 };
+    }
 
-    const changePercent = ((thisMonthExpense - lastMonthExpense) / lastMonthExpense) * 100;
+    const percentChange = ((thisMonthExpense - lastMonthExpense) / lastMonthExpense) * 100;
 
-    return changePercent >= 0 
-      ? `↑ ${changePercent.toFixed(0)}%` 
-      : `↓ ${Math.abs(changePercent).toFixed(0)}%`;
+    return {
+      text: percentChange >= 0 ? `↑ ${percentChange.toFixed(0)}%` : `↓ ${Math.abs(percentChange).toFixed(0)}%`,
+      isIncrease: percentChange >= 0
+    };
   };
 
   const monthlyComparison = getMonthlyComparison();
@@ -91,22 +90,24 @@ const Insights = () => {
           </div>
         </div>
 
-        {/* Monthly Comparison - Now Dynamic */}
+        {/* Monthly Comparison - Fully Dynamic */}
         <div className="bg-zinc-950 border border-zinc-700 rounded-2xl p-6 hover:border-amber-500/30 transition-all">
           <div className="flex items-center gap-3 text-amber-400 mb-4">
             <Target size={24} />
             <span className="font-medium">MONTHLY COMPARISON</span>
           </div>
-          <div className={`text-3xl font-semibold mb-1 ${monthlyComparison.includes('↑') ? 'text-rose-400' : 'text-emerald-400'}`}>
-            {monthlyComparison}
+          <div className={`text-3xl font-semibold mb-1 ${monthlyComparison.isIncrease ? 'text-rose-400' : 'text-emerald-400'}`}>
+            {monthlyComparison.text}
           </div>
           <div className="text-zinc-400">vs Last Month</div>
           <div className="text-sm text-zinc-500 mt-4">
-            You are {monthlyComparison.includes('↑') ? 'spending more' : 'saving more'} this month
+            {monthlyComparison.isIncrease 
+              ? "You are spending more this month" 
+              : "You are saving more this month"}
           </div>
         </div>
 
-        {/* Savings Insight */}
+        {/* Savings Rate */}
         <div className="bg-zinc-950 border border-zinc-700 rounded-2xl p-6 hover:border-emerald-500/30 transition-all">
           <div className="flex items-center gap-3 text-emerald-400 mb-4">
             <Award size={24} />
@@ -126,13 +127,12 @@ const Insights = () => {
         </div>
       </div>
 
-      {/* Extra Observation */}
+      {/* Observation */}
       <div className="mt-8 p-6 bg-zinc-950 border border-zinc-700 rounded-2xl text-sm leading-relaxed text-zinc-300">
         💡 <span className="font-medium text-amber-400">Observation:</span> 
         Your highest expense is on <span className="text-rose-400 font-medium">
           {highestSpending ? highestSpending[0] : 'Rent'}
-        </span>. 
-        Consider reviewing this category to improve savings.
+        </span>. Consider reviewing this category to improve savings.
       </div>
     </div>
   );
