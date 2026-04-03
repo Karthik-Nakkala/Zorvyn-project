@@ -9,6 +9,8 @@ import {
 } from '@tanstack/react-table';
 import { setFilters } from '../../redux/slices/transactionsSlice';
 import { Pencil, Trash2, Plus } from 'lucide-react';
+import AddTransactionModal from './AddTransactionModal';
+import { deleteTransaction } from '../../redux/slices/transactionsSlice';
 
 const TransactionTable = () => {
   const dispatch = useDispatch();
@@ -17,31 +19,56 @@ const TransactionTable = () => {
 
   const [sorting, setSorting] = useState([]);
   const [globalFilter, setGlobalFilter] = useState('');
+  const [showModal, setShowModal] = useState(false);
 
   // Columns definition
-  const columns = useMemo(() => [
-    { accessorKey: 'date', header: 'Date', cell: info => new Date(info.getValue()).toLocaleDateString('en-IN') },
-    { accessorKey: 'description', header: 'Description' },
-    { 
-      accessorKey: 'category', 
-      header: 'Category',
-      cell: info => <span className="capitalize">{info.getValue()}</span>
-    },
-    { 
-      accessorKey: 'amount', 
-      header: 'Amount',
-      cell: info => {
-        const amount = info.getValue();
-        const isIncome = info.row.original.type === 'income';
-        return (
-          <span className={`font-medium ${isIncome ? 'text-emerald-400' : 'text-rose-400'}`}>
-            {isIncome ? '+' : ''}₹{amount.toLocaleString('en-IN')}
-          </span>
-        );
-      }
-    },
-    { accessorKey: 'type', header: 'Type', cell: info => <span className="capitalize">{info.getValue()}</span> },
-  ], []);
+  const columns = useMemo(() => {
+    const baseColumns = [
+      { accessorKey: 'date', header: 'Date', cell: info => new Date(info.getValue()).toLocaleDateString('en-IN') },
+      { accessorKey: 'description', header: 'Description' },
+      { 
+        accessorKey: 'category', 
+        header: 'Category',
+        cell: info => <span className="capitalize">{info.getValue()}</span>
+      },
+      { 
+        accessorKey: 'amount', 
+        header: 'Amount',
+        cell: info => {
+          const amount = info.getValue();
+          const isIncome = info.row.original.type === 'income';
+          return (
+            <span className={`font-medium ${isIncome ? 'text-emerald-400' : 'text-rose-400'}`}>
+              {isIncome ? '+' : ''}₹{amount.toLocaleString('en-IN')}
+            </span>
+          );
+        }
+      },
+      { accessorKey: 'type', header: 'Type', cell: info => <span className="capitalize">{info.getValue()}</span> },
+    ];
+
+    // Admin ki matrame Actions column add chey
+    if (role === 'admin') {
+      baseColumns.push({
+        id: 'actions',
+        header: 'Actions',
+        cell: ({ row }) => (
+          <button
+            onClick={() => {
+              if (window.confirm('Delete this transaction?')) {
+                dispatch(deleteTransaction(row.original.id));
+              }
+            }}
+            className="text-rose-400 hover:text-rose-500 p-1 hover:bg-zinc-800 rounded-lg transition"
+          >
+            <Trash2 size={18} />
+          </button>
+        )
+      });
+    }
+
+    return baseColumns;
+  }, [role, dispatch]);   //role change ayithe columns refresh avvali
 
   const table = useReactTable({
     data: transactions,
@@ -78,7 +105,7 @@ const TransactionTable = () => {
           {/* Add Button - Admin only */}
           {role === 'admin' && (
             <button 
-              onClick={() => alert('Add Transaction Modal coming soon...')} 
+              onClick={() => setShowModal(true)} 
               className="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-500 px-5 py-2 rounded-xl text-sm font-medium transition"
             >
               <Plus size={18} /> Add Transaction
@@ -126,6 +153,7 @@ const TransactionTable = () => {
           </tbody>
         </table>
       </div>
+      <AddTransactionModal isOpen={showModal} onClose={() => setShowModal(false)} />
     </div>
   );
 };

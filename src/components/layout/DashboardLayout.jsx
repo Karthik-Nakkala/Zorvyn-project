@@ -5,6 +5,7 @@ import SummaryCards from '../dashboard/SummaryCards';
 import { Wallet, BarChart3, List, TrendingUp, LogOut } from 'lucide-react';
 import FinanceCharts from '../dashboard/FinanceCharts';
 import TransactionTable from '../transactions/TransactionTable';
+import Insights from '../dashboard/Insights';
 
 const DashboardLayout = () => {
   const dispatch = useDispatch();
@@ -83,6 +84,7 @@ const DashboardLayout = () => {
           <SummaryCards />
           <FinanceCharts/>
           <TransactionTable/>
+          <Insights/>
 
          
         </main>

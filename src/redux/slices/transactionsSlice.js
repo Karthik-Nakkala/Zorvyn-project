@@ -14,10 +14,10 @@ const transactionsSlice=createSlice({
     name:'transactions',
     initialState,
     reducers:{
-        addTransactions:(state,action)=>{
+        addTransaction:(state,action)=>{
             state.transactions.unshift(action.payload);
         },
-        deleteTransactions:(state,action)=>{
+        deleteTransaction:(state,action)=>{
             state.transactions=state.transactions.filter(t=>t.id!==action.payload)
         },
         setFilters:(state,action)=>{
@@ -26,6 +26,6 @@ const transactionsSlice=createSlice({
     }
 })
 
-export const {addTransactions,deleteTransactions,setFilters}=transactionsSlice.actions;
+export const {addTransaction,deleteTransaction,setFilters}=transactionsSlice.actions;
 
 export default transactionsSlice.reducer;

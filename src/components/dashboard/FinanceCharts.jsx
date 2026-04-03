@@ -1,4 +1,5 @@
 import { useSelector } from 'react-redux';
+import { useMemo } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 
 const COLORS = ['#10b981', '#3b82f6', '#8b5cf6', '#ec4899', '#f59e0b', '#ef4444'];
@@ -6,38 +7,62 @@ const COLORS = ['#10b981', '#3b82f6', '#8b5cf6', '#ec4899', '#f59e0b', '#ef4444'
 const FinanceCharts = () => {
   const transactions = useSelector((state) => state.transactions.transactions);
 
-  // Mock Monthly Balance Trend Data (real ga calculations cheyyochchu, but for speed static + dynamic mix)
-  const monthlyTrend = [
-    { month: 'Oct', balance: 85000 },
-    { month: 'Nov', balance: 112000 },
-    { month: 'Dec', balance: 98000 },
-    { month: 'Jan', balance: 145000 },
-    { month: 'Feb', balance: 168000 },
-    { month: 'Mar', balance: 192280 },
-  ];
+  // Dynamic Balance Trend
+  const monthlyTrend = useMemo(() => {
+    if (transactions.length === 0) {
+      return [{ month: 'No Data', balance: 0 }];
+    }
 
-  // Spending by Category (Dynamic)
-  const categoryData = transactions
-    .filter(t => t.type === 'expense')
-    .reduce((acc, t) => {
-      const existing = acc.find(item => item.name === t.category);
-      if (existing) {
-        existing.value += t.amount;
-      } else {
-        acc.push({ name: t.category, value: t.amount });
+    const monthsMap = {};
+
+    transactions.forEach(t => {
+      const date = new Date(t.date);
+      const monthKey = date.toLocaleString('default', { month: 'short' });
+
+      if (!monthsMap[monthKey]) {
+        monthsMap[monthKey] = { month: monthKey, net: 0 };
       }
-      return acc;
-    }, []);
+
+      monthsMap[monthKey].net += (t.type === 'income' ? t.amount : -t.amount);
+    });
+
+    let runningBalance = 0;
+    const sorted = Object.values(monthsMap).sort((a, b) => 
+      new Date(`2026 ${a.month} 01`) - new Date(`2026 ${b.month} 01`)
+    );
+
+    return sorted
+      .map(item => {
+        runningBalance += item.net;
+        return {
+          month: item.month,
+          balance: Math.max(0, Math.round(runningBalance))
+        };
+      })
+      .slice(-6);
+  }, [transactions]);
+
+  // Spending Breakdown
+  const categoryData = useMemo(() => {
+    return transactions
+      .filter(t => t.type === 'expense')
+      .reduce((acc, t) => {
+        const existing = acc.find(item => item.name === t.category);
+        if (existing) {
+          existing.value += t.amount;
+        } else {
+          acc.push({ name: t.category, value: t.amount });
+        }
+        return acc;
+      }, []);
+  }, [transactions]);
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-10">
       
       {/* Balance Trend Line Chart */}
       <div className="bg-zinc-900 border border-zinc-800 rounded-3xl p-6">
-        <h3 className="text-lg font-semibold mb-6 flex items-center gap-2">
-          <span>Balance Trend</span>
-          <span className="text-emerald-400 text-sm">(Last 6 Months)</span>
-        </h3>
+        <h3 className="text-lg font-semibold mb-6">Balance Trend (Last 6 Months)</h3>
         <ResponsiveContainer width="100%" height={320}>
           <LineChart data={monthlyTrend}>
             <CartesianGrid strokeDasharray="3 3" stroke="#27272a" />
@@ -70,7 +95,6 @@ const FinanceCharts = () => {
                 cy="50%"
                 innerRadius={70}
                 outerRadius={110}
-                fill="#8884d8"
                 dataKey="value"
                 label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
               >
@@ -86,8 +110,7 @@ const FinanceCharts = () => {
             No expense data available
           </div>
         )}
-        
-        {/* Legend */}
+
         <div className="grid grid-cols-2 gap-3 mt-6 text-sm">
           {categoryData.slice(0, 6).map((item, i) => (
             <div key={i} className="flex items-center gap-2">
