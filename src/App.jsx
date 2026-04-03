@@ -9,8 +9,7 @@ const AppContent = () => {
   return (
     
       <div className={darkMode ? 'dark' : ''}>
-        <Header/>
-        <SummaryCards/>
+        <DashboardLayout/>
       </div>
    
     
@@ -19,6 +18,7 @@ const AppContent = () => {
 
 import React from 'react'
 import SummaryCards from "./components/dashboard/SummaryCards";
+import DashboardLayout from "./components/layout/DashboardLayout";
 
 const App = () => {
   return (
