@@ -22,10 +22,13 @@ const transactionsSlice=createSlice({
         },
         setFilters:(state,action)=>{
             state.filters={...state.filters,...action.payload}
-        }
+        },
+        setTransactions: (state, action) => {
+            state.transactions = action.payload;
+        },
     }
 })
 
-export const {addTransaction,deleteTransaction,setFilters}=transactionsSlice.actions;
+export const {addTransaction,deleteTransaction,setFilters,setTransactions}=transactionsSlice.actions;
 
 export default transactionsSlice.reducer;
