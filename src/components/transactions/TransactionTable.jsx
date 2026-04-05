@@ -8,7 +8,7 @@ import {
   flexRender 
 } from '@tanstack/react-table';
 import { setFilters } from '../../redux/slices/transactionsSlice';
-import { Pencil, Trash2, Plus } from 'lucide-react';
+import { Pencil, Trash2, Plus,Download } from 'lucide-react';
 import AddTransactionModal from './AddTransactionModal';
 import { deleteTransaction } from '../../redux/slices/transactionsSlice';
 
@@ -87,6 +87,36 @@ const TransactionTable = () => {
     getFilteredRowModel: getFilteredRowModel(),
   });
 
+  const exportToCSV = () => {
+    if (transactions.length === 0) {
+      alert("No transactions to export!");
+      return;
+    }
+
+    const headers = ["Date", "Description", "Category", "Amount", "Type"];
+    
+    const rows = transactions.map(t => [
+      new Date(t.date).toLocaleDateString('en-IN'),
+      t.description,
+      t.category,
+      t.type === 'income' ? `+₹${t.amount}` : `-₹${t.amount}`,
+      t.type.toUpperCase()
+    ]);
+
+    const csvContent = [
+      headers.join(","),
+      ...rows.map(row => row.join(","))
+    ].join("\n");
+
+    const blob = new Blob([csvContent], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `zorvyn_transactions_${new Date().toISOString().slice(0,10)}.csv`;
+    link.click();
+    URL.revokeObjectURL(url);
+  };
+
   return (
     <div className="mt-12 bg-zinc-900 border border-zinc-800 rounded-3xl p-6">
       <div className="flex items-center justify-between mb-6">
@@ -101,6 +131,15 @@ const TransactionTable = () => {
             onChange={(e) => table.setGlobalFilter(e.target.value)}
             className="bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-2 text-sm focus:outline-none focus:border-emerald-500 w-72"
           />
+
+          {/* NEW CSV EXPORT BUTTON */}
+          <button
+            onClick={exportToCSV}
+            className="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-500 px-5 py-2.5 rounded-2xl text-sm font-medium transition-all active:scale-95"
+          >
+            <Download size={18} />
+            Export CSV
+          </button>
 
           {/* Add Button - Admin only */}
           {role === 'admin' && (
