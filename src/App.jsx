@@ -4,6 +4,7 @@ import { store } from "./redux/store";
 import RoleToggle from "./components/layout/RoleToggle";
 import Header from "./components/layout/Header";
 import { setTransactions } from "./redux/slices/transactionsSlice";
+import { mockTransactions } from "./data/mockTransactions";
 
 const AppContent = () => {
 
@@ -17,6 +18,10 @@ const AppContent = () => {
     if (savedTransactions) {
       console.log("Jai hanuman");
       dispatch(setTransactions(JSON.parse(savedTransactions)));
+    }
+    else{
+      dispatch(setTransactions(mockTransactions));
+      localStorage.setItem('zorvynTransactions',JSON.stringify(mockTransactions))
     }
   }, [dispatch]);
 

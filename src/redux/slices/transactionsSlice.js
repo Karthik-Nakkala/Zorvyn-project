@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { mockTransactions } from "../../data/mockTransactions";
+
 
 const initialState={
-    transactions:mockTransactions,
+    transactions:[],
     filters:{
         search:'',
         type:'all',
@@ -14,6 +14,9 @@ const transactionsSlice=createSlice({
     name:'transactions',
     initialState,
     reducers:{
+        setTransactions: (state, action) => {
+            state.transactions = action.payload;
+        },
         addTransaction:(state,action)=>{
             state.transactions.unshift(action.payload);
         },
@@ -23,12 +26,10 @@ const transactionsSlice=createSlice({
         setFilters:(state,action)=>{
             state.filters={...state.filters,...action.payload}
         },
-        setTransactions: (state, action) => {
-            state.transactions = action.payload;
-        },
+        
     }
 })
 
-export const {addTransaction,deleteTransaction,setFilters,setTransactions}=transactionsSlice.actions;
+export const {setTransactions,addTransaction,deleteTransaction,setFilters}=transactionsSlice.actions;
 
 export default transactionsSlice.reducer;
