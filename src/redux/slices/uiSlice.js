@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const uiSlice=createSlice({
     name:'ui',
     initialState:{
-        role:'viwer',
+        role:'viewer',
         darkMode:true,
     },
     reducers:{

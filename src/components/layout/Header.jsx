@@ -10,7 +10,7 @@ const Header = () => {
     <div>
       <label htmlFor="">Role:</label>
       <select name="role" onChange={(e)=>{dispatch(setRole(e.target.value))}}>
-        <option value="viwer">Viwer</option>
+        <option value="viewer">Viewer</option>
         <option value="admin">Admin</option>
       </select>
     </div>
