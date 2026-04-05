@@ -23,22 +23,22 @@ Users can:
 
 ## 📸 Screenshots
 
-*(Note: Please place the screenshots you uploaded into the `public/screenshots` folder and rename them to match the filenames below, or update the links to match your current image paths.)*
+*(Note: Ensure your GitHub repository renders the `public/applicationScreenShots` folder correctly)*
 
 ### 1. Dashboard Overview & Summary Cards
-![Dashboard Overview](./public/screenshots/dashboard-summary.png)
+![Dashboard Overview](./public/applicationScreenShots/Screenshot%202026-04-06%20010816.png)
 *Real-time overview displaying Total Balance, Income, Expenses, and Savings Efficiency.*
 
 ### 2. Deep Visual Analytics
-![Visual Analytics](./public/screenshots/visual-analytics.png)
+![Visual Analytics](./public/applicationScreenShots/Screenshot%202026-04-06%20010840.png)
 *Interactive charts rendering Balance Momentum and Category-specific Outflow Breakdowns.*
 
 ### 3. Smart AI-Powered Insights
-![Insights & Analytics](./public/screenshots/insights.png)
+![Insights & Analytics](./public/applicationScreenShots/Screenshot%202026-04-06%20010859.png)
 *Actionable intelligence tracking top expense categories, monthly spending velocity, and capital retention meters.*
 
 ### 4. Comprehensive Transaction Ledger
-![Transaction Table](./public/screenshots/transactions.png)
+![Transaction Table](./public/applicationScreenShots/Screenshot%202026-04-06%20010914.png)
 *A robust data grid allowing users to filter, sort, and export financial records to CSV.*
 
 ---
