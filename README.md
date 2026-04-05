@@ -23,8 +23,6 @@ Users can:
 
 ## 📸 Screenshots
 
-*(Note: Ensure your GitHub repository renders the `public/applicationScreenShots` folder correctly)*
-
 ### 1. Dashboard Overview & Summary Cards
 ![Dashboard Overview](./public/applicationScreenShots/Screenshot%202026-04-06%20010816.png)
 *Real-time overview displaying Total Balance, Income, Expenses, and Savings Efficiency.*
@@ -66,6 +64,7 @@ Users can:
 
 ```bash
 git clone https://github.com/Karthik-Nakkala/Zorvyn-project
-cd Zorvyn Project
+cd Zorvyn-project
 npm install
 npm run dev
+```
