@@ -32,10 +32,10 @@ The application features a clean, premium dark UI with smooth interactions, real
 ### 2. Visual Analytics & Charts
 ![Visual Analytics](./public/applicationScreenShots/Screenshot%202026-04-06%20010840.png)
 
-### 3. Smart Insights
+### 3. Transactions Management
 ![Smart Insights](./public/applicationScreenShots/Screenshot%202026-04-06%20010859.png)
 
-### 4. Transactions Management
+### 4. Smart Insights
 ![Transactions](./public/applicationScreenShots/Screenshot%202026-04-06%20010914.png)
 
 ---
