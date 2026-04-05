@@ -1,70 +1,74 @@
-# Zorvyn Finance - Premium Fintech Dashboard
+# Zorvyn Finance - Premium Personal Finance Dashboard
 
 **Frontend Developer Intern Assignment**  
-**Submitted by:** Karthik Nakkala
-
-## 🚀 Live Demo
-[Live Demo Link](https://zorvyn-project-wine.vercel.app/)
-
-## 📋 Project Overview
-A clean, modern, and fully interactive **Premium Personal Finance Dashboard** built for Zorvyn FinTech. Designed with a stunning deep dark-mode aesthetic, micro-animations, and smooth user flow to provide a high-end financial tracking experience.
-
-Users can:
-- View real-time financial summary cards and net worth
-- Track balance momentum and trends over the last 6 months
-- See categorized outflow breakdown with a beautiful pie chart
-- Manage transactions (Add / Delete / Search / Sort)
-- Role-based access control (Admin vs Viewer)
-- Access smart AI-powered financial insights (Monthly velocity, Capital retention)
-- Export all transaction data to CSV instantly
-- Persist data locally across sessions using LocalStorage
+**Submitted by:** Karthik Nakkala  
+**Email:** karthiknakkala15@gmail.com
 
 ---
 
-## 📸 Screenshots
+## 🚀 Live Demo
+**[Live Demo](https://zorvyn-project-wine.vercel.app/)**
 
-### 1. Dashboard Overview & Summary Cards
+## 📋 Project Overview
+
+A **modern, high-fidelity Personal Finance Dashboard** built to deliver an exceptional user experience for tracking, analyzing, and managing personal finances. 
+
+The application features a clean, premium dark UI with smooth interactions, real-time calculations, role-based access, and persistent data — demonstrating strong frontend architecture and attention to detail.
+
+### Key Highlights
+- Fully responsive design with excellent mobile experience
+- Dynamic data visualizations and smart insights
+- Role-based functionality (Admin vs Viewer)
+- Zero backend dependency with full LocalStorage persistence
+- Production-ready code quality and best practices
+
+---
+
+## 📸 Application Screenshots
+
+### 1. Dashboard Overview
 ![Dashboard Overview](./public/applicationScreenShots/Screenshot%202026-04-06%20010816.png)
-*Real-time overview displaying Total Balance, Income, Expenses, and Savings Efficiency.*
 
-### 2. Deep Visual Analytics
+### 2. Visual Analytics & Charts
 ![Visual Analytics](./public/applicationScreenShots/Screenshot%202026-04-06%20010840.png)
-*Interactive charts rendering Balance Momentum and Category-specific Outflow Breakdowns.*
 
-### 3. Smart AI-Powered Insights
-![Insights & Analytics](./public/applicationScreenShots/Screenshot%202026-04-06%20010859.png)
-*Actionable intelligence tracking top expense categories, monthly spending velocity, and capital retention meters.*
+### 3. Smart Insights
+![Smart Insights](./public/applicationScreenShots/Screenshot%202026-04-06%20010859.png)
 
-### 4. Comprehensive Transaction Ledger
-![Transaction Table](./public/applicationScreenShots/Screenshot%202026-04-06%20010914.png)
-*A robust data grid allowing users to filter, sort, and export financial records to CSV.*
+### 4. Transactions Management
+![Transactions](./public/applicationScreenShots/Screenshot%202026-04-06%20010914.png)
 
 ---
 
 ## 🛠️ Tech Stack
-- **React 18** + Vite
-- **Redux Toolkit** (State Management)
-- **Tailwind CSS v4** (Modern Utility-First Styling)
-- **Recharts** (Performant Charts)
-- **TanStack Table v8** (Advanced data grid with sorting & filtering)
-- **Lucide React** (Beautiful iconography)
-- LocalStorage for zero-backend persistence
 
-## ✨ Key Features
-- **Summary Cards** – Total Balance, Income, Expenses, Savings Rate
-- **Dynamic Charts** – Balance Trend (Line) + Spending Breakdown (Pie)
-- **Fully Functional Transactions Table** – Search, Sort, Filter
-- **Role Simulation** – Admin can Add/Delete, Viewer can only view
-- **Smart Insights** – Highest spending category + Monthly comparison
-- **CSV Export** – One-click scalable download
-- **LocalStorage Persistence** – Data remains safe after refresh
-- **Responsive & Modern Dark UI** – Engineered with glassmorphism and crisp modern aesthetics
+- **Frontend**: React 18 + Vite
+- **State Management**: Redux Toolkit
+- **Styling**: Tailwind CSS v4
+- **Charts**: Recharts
+- **Data Table**: TanStack Table v8 (with sorting, filtering & search)
+- **Icons**: Lucide React
+- **Persistence**: LocalStorage
+
+---
+
+## ✨ Core Features
+
+- **Real-time Summary Cards** – Total Balance, Income, Expenses & Savings Rate with percentage trends
+- **Interactive Visualizations** – Dynamic 6-month Balance Trend (Line Chart) + Spending Breakdown (Pie Chart)
+- **Advanced Transactions Management** – Add, Delete, Search, Sort & Filter with TanStack Table
+- **Role-Based Access** – Admin can manage transactions, Viewer has read-only access
+- **Smart Insights** – Highest spending category, Monthly comparison, Savings analysis
+- **One-click CSV Export** – Export complete transaction history
+- **Persistent Storage** – Data survives page refresh using LocalStorage
+- **Fully Responsive** – Optimized for desktop, tablet & mobile
+
+---
 
 ## 🧪 How to Run Locally
 
 ```bash
-git clone https://github.com/Karthik-Nakkala/Zorvyn-project
+git clone https://github.com/Karthik-Nakkala/Zorvyn-project.git
 cd Zorvyn-project
 npm install
 npm run dev
-```
