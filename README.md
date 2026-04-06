@@ -38,8 +38,8 @@ The application features a clean, premium dark UI with smooth interactions, real
 ### 4. Smart Insights
 ![Transactions](./public/applicationScreenShots/Screenshot%202026-04-06%20010914.png)
 
-### 5. Lighthouse Performance
-![Performance Scores](./public/applicationScreenShots/Screenshot 2026-04-06 153542.png)
+### 5. Performance Metrics
+![Performance Metrics](./public/applicationScreenShots/Screenshot%202026-04-06%20153542.png)
 
 ---
 
